@@ -18,4 +18,13 @@ enum UsernameFactory {
 
         return result
     }
+
+    static func randomWelcomeMessage() -> String {
+        let sayings = [
+            "welcomeMessage1".localized(),
+            "welcomeMessage2".localized(),
+            "welcomeMessage3".localized(),
+        ]
+        return sayings.randomElement() ?? ""
+    }
 }

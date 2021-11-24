@@ -16,8 +16,8 @@ final class HomeViewController: UIViewController {
     private lazy var contentView: UIView = UIView()
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: UIScreen.main.bounds.width <= 350 ? 30 : 34,
-                                       weight: .bold)
+        label.font = .boldSystemFont(ofSize: 24)
+        label.numberOfLines = 2
         return label
     }()
     private lazy var launchView = LaunchView(frame: CGRect(x: 0,
@@ -117,6 +117,7 @@ extension HomeViewController {
             .sink(receiveValue: { [weak self] user in
                 guard let self = self else { return }
                 self.titleLabel.text = "%@ routine".localized(with: user.name)
+                                       + "\n\(UsernameFactory.randomWelcomeMessage())"
                 self.continuityView.configureContents(with: user)
             })
             .store(in: &cancellables)

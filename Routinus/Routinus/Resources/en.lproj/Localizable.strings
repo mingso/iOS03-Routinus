@@ -7,8 +7,11 @@
 */
 
 // titles
-"%@ routine" = "%@'s Routine";
+"%@ routine" = "%@,";
 "my challenges" = "My Challenges";
+"welcomeMessage1" = "Start your dream day!";
+"welcomeMessage2" = "Color your day!";
+"welcomeMessage3" = "Seize the day!";
 
 // home
 "in a row" = "days achieved!";

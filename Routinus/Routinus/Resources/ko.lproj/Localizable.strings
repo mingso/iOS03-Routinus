@@ -7,8 +7,11 @@
 */
 
 // titles
-"%@ routine" = "%@";
+"%@ routine" = "%@님,";
 "my challenges" = "나의 챌린지";
+"welcomeMessage1" = "상상했던 하루를 시작해 보세요!";
+"welcomeMessage2" = "오늘 하루를 색칠해보세요!";
+"welcomeMessage3" = "오늘을 즐기세요!";
 
 // home
 "in a row" = "일 연속 달성!";
