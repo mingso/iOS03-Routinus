@@ -29,7 +29,7 @@ struct UserCreateUsecase: UserCreatableUsecase {
     func createUser(completion: ((User) -> Void)?) {
         guard repository.isEmptyUserID() else { return }
         let id = createID()
-        let name = UserNameFactory.createRandomName()
+        let name = UsernameFactory.createRandomName()
         repository.save(id: id, name: name) { userDTO in
             let user = User(userDTO: userDTO)
             completion?(user)
