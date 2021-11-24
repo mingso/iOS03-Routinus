@@ -748,6 +748,7 @@ public enum RoutinusNetwork {
     public static func updateAchievementCount(userID: String,
                                               yearMonth: String,
                                               day: String,
+                                              count: Int,
                                               completion: (() -> Void)?) {
         achievement(userID: userID, yearMonth: yearMonth, day: day) { dto in
             guard let dto = dto,
@@ -758,7 +759,7 @@ public enum RoutinusNetwork {
             let achievementDTO = AchievementDTO(totalCount: totalCount,
                                                 day: day,
                                                 userID: userID,
-                                                achievementCount: achievementCount + 1,
+                                                achievementCount: achievementCount + count,
                                                 yearMonth: yearMonth)
 
             guard let achievementField = achievementDTO.document?.fields else { return }

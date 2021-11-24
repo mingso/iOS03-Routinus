@@ -178,6 +178,7 @@ final class DetailViewController: UIViewController {
             .sink(receiveValue: { [weak self] _ in
                 guard let self = self else { return }
                 self.viewModel?.updateParticipantCount(-1)
+                self.viewModel?.participationAuthState.value = .notParticipating
             })
             .store(in: &cancellables)
     }

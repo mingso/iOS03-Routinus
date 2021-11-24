@@ -86,7 +86,7 @@ extension AuthViewModel {
                                                             userAuthImageURL: userAuthImageURL,
                                                             userAuthThumbnailImageURL: userAuthThumbnailImageURL)
         self.participationUpdateUsecase.updateParticipationAuthCount(challengeID: challengeID)
-        self.achievementUpdateUsecase.updateAchievementCount()
+        self.achievementUpdateUsecase.updateAchievementCount(1)
         self.userUpdateUsecase.updateContinuityDayByAuth()
     }
 

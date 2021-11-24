@@ -130,7 +130,6 @@ extension DetailViewModel {
     func didTappedAlertGiveUp() {
         guard let challengeID = challengeID else { return }
         participationCreateUsecase.giveupParticipation(challengeID: challengeID)
-//        self.participationAuthState.value = .notAuthenticating
         alertGiveUpTap.send()
     }
 
@@ -146,6 +145,10 @@ extension DetailViewModel {
         guard let challengeID = challengeID else { return }
         challengeUpdateUsecase.updateParticipantCount(challengeID: challengeID, count)
         achievementUpdateUsecase.updateTotalCount(count)
+
+        if participationAuthState.value == .authenticated {
+            achievementUpdateUsecase.updateAchievementCount(count)
+        }
     }
 }
 
