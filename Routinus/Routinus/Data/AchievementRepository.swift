@@ -20,7 +20,8 @@ protocol AchievementRepository {
 
     func updateTotalCount(userID: String,
                           yearMonth: String,
-                          day: String)
+                          day: String,
+                          count: Int)
 }
 
 extension RoutinusRepository: AchievementRepository {
@@ -43,10 +44,12 @@ extension RoutinusRepository: AchievementRepository {
 
     func updateTotalCount(userID: String,
                           yearMonth: String,
-                          day: String) {
+                          day: String,
+                          count: Int) {
         RoutinusNetwork.updateTotalCount(userID: userID,
                                          yearMonth: yearMonth,
                                          day: day,
+                                         count: count,
                                          completion: nil)
     }
 }

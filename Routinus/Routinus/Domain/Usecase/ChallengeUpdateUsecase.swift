@@ -10,7 +10,7 @@ import Foundation
 protocol ChallengeUpdatableUsecase {
     func endDate(startDate: Date, week: Int) -> Date?
     func update(challenge: Challenge)
-    func updateParticipantCount(challengeID: String)
+    func updateParticipantCount(challengeID: String, _ count: Int)
 }
 
 struct ChallengeUpdateUsecase: ChallengeUpdatableUsecase {
@@ -31,7 +31,7 @@ struct ChallengeUpdateUsecase: ChallengeUpdatableUsecase {
         repository.update(challenge: challenge)
     }
 
-    func updateParticipantCount(challengeID: String) {
-        repository.updateParticipantCount(challengeID: challengeID)
+    func updateParticipantCount(challengeID: String, _ count: Int) {
+        repository.updateParticipantCount(challengeID: challengeID, count)
     }
 }

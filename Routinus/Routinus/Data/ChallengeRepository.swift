@@ -31,7 +31,7 @@ protocol ChallengeRepository {
               authExampleImageURL: String,
               authExampleThumbnailImageURL: String)
     func update(challenge: Challenge)
-    func updateParticipantCount(challengeID: String)
+    func updateParticipantCount(challengeID: String, _ count: Int)
 }
 
 extension RoutinusRepository: ChallengeRepository {
@@ -151,7 +151,7 @@ extension RoutinusRepository: ChallengeRepository {
                                         completion: nil)
     }
 
-    func updateParticipantCount(challengeID: String) {
-        RoutinusNetwork.updateParticipantCount(challengeID: challengeID, completion: nil)
+    func updateParticipantCount(challengeID: String, _ count: Int) {
+        RoutinusNetwork.updateParticipantCount(challengeID: challengeID, count: count, completion: nil)
     }
 }

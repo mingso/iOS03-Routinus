@@ -784,6 +784,7 @@ public enum RoutinusNetwork {
     public static func updateTotalCount(userID: String,
                                         yearMonth: String,
                                         day: String,
+                                        count: Int,
                                         completion: (() -> Void)?) {
         achievement(userID: userID, yearMonth: yearMonth, day: day) { dto in
             guard let dto = dto,
@@ -791,7 +792,7 @@ public enum RoutinusNetwork {
                   let achievementCount = Int(document.fields.achievementCount.integerValue),
                   let totalCount = Int(document.fields.totalCount.integerValue) else { return }
 
-            let achievementDTO = AchievementDTO(totalCount: totalCount + 1,
+            let achievementDTO = AchievementDTO(totalCount: totalCount + count,
                                                 day: day,
                                                 userID: userID,
                                                 achievementCount: achievementCount,
@@ -818,6 +819,7 @@ public enum RoutinusNetwork {
     }
 
     public static func updateParticipantCount(challengeID: String,
+                                              count: Int,
                                               completion: (() -> Void)?) {
         challenge(challengeID: challengeID) { dto in
             guard let document = dto.document,
@@ -840,7 +842,7 @@ public enum RoutinusNetwork {
                                             desc: desc,
                                             startDate: startDate,
                                             endDate: endDate,
-                                            participantCount: participationCount + 1,
+                                            participantCount: participationCount + count,
                                             ownerID: ownerID)
 
             guard let challengeField = challengeDTO.document?.fields, let documentID = dto.documentID else { return }

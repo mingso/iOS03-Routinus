@@ -168,8 +168,16 @@ final class DetailViewController: UIViewController {
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] _ in
                 guard let self = self else { return }
-                self.viewModel?.updateParticipantCount()
+                self.viewModel?.updateParticipantCount(1)
                 self.presentParticipationAlert()
+            })
+            .store(in: &cancellables)
+
+        self.viewModel?.alertGiveUpTap
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: { [weak self] _ in
+                guard let self = self else { return }
+                self.viewModel?.updateParticipantCount(-1)
             })
             .store(in: &cancellables)
     }

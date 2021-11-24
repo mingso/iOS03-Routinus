@@ -24,7 +24,7 @@ protocol DetailViewModelInput {
     func didTappedAlertConfirm()
     func didTappedAlertGiveUp()
     func didTappedAuthMethodImage(imageData: Data)
-    func updateParticipantCount()
+    func updateParticipantCount(_ count: Int)
 }
 
 protocol DetailViewModelOutput {
@@ -112,10 +112,6 @@ extension DetailViewModel {
         self.editBarButtonTap.send(challengeID)
     }
 
-    func didTappedDeleteBarButton() {
-        guard let challengeID = challengeID else { return }
-    }
-
     func didTappedParticipationAuthButton() {
         guard let challengeID = challengeID else { return }
         if participationAuthState.value == .notParticipating {
@@ -132,7 +128,6 @@ extension DetailViewModel {
     }
 
     func didTappedAlertGiveUp() {
-        print("zz")
         guard let challengeID = challengeID else { return }
         participationCreateUsecase.giveupParticipation(challengeID: challengeID)
 //        self.participationAuthState.value = .notAuthenticating
@@ -147,10 +142,10 @@ extension DetailViewModel {
         self.updateParticipationAuthState()
     }
 
-    func updateParticipantCount() {
+    func updateParticipantCount(_ count: Int) {
         guard let challengeID = challengeID else { return }
-        challengeUpdateUsecase.updateParticipantCount(challengeID: challengeID)
-        achievementUpdateUsecase.updateTotalCount()
+        challengeUpdateUsecase.updateParticipantCount(challengeID: challengeID, count)
+        achievementUpdateUsecase.updateTotalCount(count)
     }
 }
 
