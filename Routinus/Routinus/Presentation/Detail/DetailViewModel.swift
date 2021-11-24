@@ -22,6 +22,7 @@ protocol DetailViewModelInput {
     func didTappedEditBarButton()
     func didTappedParticipationAuthButton()
     func didTappedAlertConfirm()
+    func didTappedAlertGiveUp()
     func didTappedAuthMethodImage(imageData: Data)
     func updateParticipantCount()
 }
@@ -35,6 +36,7 @@ protocol DetailViewModelOutput {
     var participationButtonTap: PassthroughSubject<Void, Never> { get }
     var authButtonTap: PassthroughSubject<String, Never> { get }
     var alertConfirmTap: PassthroughSubject<Void, Never> { get }
+    var alertGiveUpTap: PassthroughSubject<Void, Never> { get }
     var authMethodImageTap: PassthroughSubject<Data, Never> { get }
     var challengeID: String? { get }
 }
@@ -50,6 +52,7 @@ class DetailViewModel: DetailViewModelIO {
     var participationButtonTap = PassthroughSubject<Void, Never>()
     var authButtonTap = PassthroughSubject<String, Never>()
     var alertConfirmTap = PassthroughSubject<Void, Never>()
+    var alertGiveUpTap = PassthroughSubject<Void, Never>()
     var authMethodImageTap = PassthroughSubject<Data, Never>()
 
     let challengeFetchUsecase: ChallengeFetchableUsecase
@@ -109,6 +112,10 @@ extension DetailViewModel {
         self.editBarButtonTap.send(challengeID)
     }
 
+    func didTappedDeleteBarButton() {
+        guard let challengeID = challengeID else { return }
+    }
+
     func didTappedParticipationAuthButton() {
         guard let challengeID = challengeID else { return }
         if participationAuthState.value == .notParticipating {
@@ -122,6 +129,14 @@ extension DetailViewModel {
 
     func didTappedAlertConfirm() {
         alertConfirmTap.send()
+    }
+
+    func didTappedAlertGiveUp() {
+        print("zz")
+        guard let challengeID = challengeID else { return }
+        participationCreateUsecase.giveupParticipation(challengeID: challengeID)
+//        self.participationAuthState.value = .notAuthenticating
+        alertGiveUpTap.send()
     }
 
     func didTappedAuthMethodImage(imageData: Data) {

@@ -9,6 +9,7 @@ import Foundation
 
 protocol ParticipationCreatableUsecase {
     func createParticipation(challengeID: String)
+    func giveupParticipation(challengeID: String)
 }
 
 struct ParticipationCreateUsecase: ParticipationCreatableUsecase {
@@ -21,5 +22,9 @@ struct ParticipationCreateUsecase: ParticipationCreatableUsecase {
     func createParticipation(challengeID: String) {
         let date = Date().toDateString()
         repository.save(challengeID: challengeID, joinDate: date)
+    }
+
+    func giveupParticipation(challengeID: String) {
+        repository.delete(challengeID: challengeID) { _ in }
     }
 }

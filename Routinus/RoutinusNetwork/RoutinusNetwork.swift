@@ -12,6 +12,7 @@ public enum RoutinusNetwork {
         case get = "GET"
         case post = "POST"
         case patch = "PATCH"
+        case delete = "DELETE"
     }
 
     private static let firestoreURL = "https://firestore.googleapis.com/v1/projects/boostcamp-ios03-routinus/databases/(default)/documents"
@@ -860,4 +861,15 @@ public enum RoutinusNetwork {
             }.resume()
         }
     }
-}
+
+    public static func deleteChallengeParticipation(dto: ParticipationDTO,
+                                                    completion: (() -> Void)? = nil) {
+        guard var url = URL(string: "\(firestoreURL)/challenge_participation") else { return }
+        url.appendPathComponent(dto.documentID ?? "")
+        var request = URLRequest(url: url)
+        request.addValue("text/plain", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = HTTPMethod.delete.rawValue
+        URLSession.shared.dataTask(with: request) { _, _, _ in
+            completion?()
+        }.resume()
+    }}

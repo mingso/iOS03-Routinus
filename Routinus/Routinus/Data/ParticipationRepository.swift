@@ -18,6 +18,9 @@ protocol ParticipationRepository {
               joinDate: String)
 
     func updateAuthCount(challengeID: String)
+
+    func delete(challengeID: String,
+                completion: @escaping ((Void?) -> Void))
 }
 
 extension RoutinusRepository: ParticipationRepository {
@@ -50,5 +53,21 @@ extension RoutinusRepository: ParticipationRepository {
         RoutinusNetwork.updateChallengeParticipationAuthCount(challengeID: challengeID,
                                                               userID: userID,
                                                               completion: nil)
+    }
+
+    func delete(challengeID: String,
+                completion: @escaping ((Void?) -> Void)) {
+        guard let userID = RoutinusRepository.userID() else { return }
+        RoutinusNetwork.challengeParticipation(userID: userID,
+                                               challengeID: challengeID) { dto in
+            guard let dto = dto,
+                  dto.document != nil else {
+                completion(nil)
+                return
+            }
+            completion(RoutinusNetwork.deleteChallengeParticipation(dto: dto,
+                                                                    completion: nil)
+)
+        }
     }
 }

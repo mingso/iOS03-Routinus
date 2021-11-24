@@ -10,6 +10,7 @@ import UIKit
 
 final class DetailCoordinator: RoutinusCoordinator {
     static let confirmParticipation = Notification.Name("confirmParticipation")
+    static let confirmGiveUp = Notification.Name("confirmGiveUp")
     var childCoordinator: [RoutinusCoordinator] = []
     var navigationController: UINavigationController
     var cancellables = Set<AnyCancellable>()
@@ -75,7 +76,14 @@ final class DetailCoordinator: RoutinusCoordinator {
             }
             .store(in: &cancellables)
 
-        detailViewModel.authMethodImageTap
+        detailViewModel.alertGiveUpTap
+            .sink { _ in
+                NotificationCenter.default.post(name: DetailCoordinator.confirmGiveUp,
+                                                object: nil)
+            }
+            .store(in: &cancellables)
+
+       detailViewModel.authMethodImageTap
             .receive(on: RunLoop.main)
             .sink { [weak self] imageData in
                 guard let self = self else { return }

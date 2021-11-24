@@ -28,6 +28,15 @@ final class DetailViewController: UIViewController {
         return barButtonItem
     }()
 
+    private lazy var deleteBarButtonItem: UIBarButtonItem = {
+        var barButtonItem = UIBarButtonItem()
+        barButtonItem.image = UIImage(systemName: "trash")
+        barButtonItem.tintColor = UIColor(named: "Black")
+        barButtonItem.target = self
+        barButtonItem.action = #selector(didTappedDeleteBarButton(_:))
+        return barButtonItem
+    }()
+
     private lazy var mainImageView: UIImageView = {
         var imageView = UIImageView()
         imageView.backgroundColor = .systemBackground
@@ -142,7 +151,7 @@ final class DetailViewController: UIViewController {
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] ownerState in
                 guard let self = self else { return }
-                let rightBarButtonItem = ownerState ? self.editBarButtonItem : nil
+                let rightBarButtonItem = ownerState ? self.editBarButtonItem : self.deleteBarButtonItem
                 self.navigationItem.rightBarButtonItem = rightBarButtonItem
             })
             .store(in: &cancellables)
@@ -160,7 +169,7 @@ final class DetailViewController: UIViewController {
             .sink(receiveValue: { [weak self] _ in
                 guard let self = self else { return }
                 self.viewModel?.updateParticipantCount()
-                self.presentAlert()
+                self.presentParticipationAlert()
             })
             .store(in: &cancellables)
     }
@@ -170,7 +179,7 @@ final class DetailViewController: UIViewController {
         authMethodView.delegate = self
     }
 
-    private func presentAlert() {
+    private func presentParticipationAlert() {
         let alert = UIAlertController(title: "알림", message: "챌린지에 참여되었습니다.", preferredStyle: .alert)
         let confirm = UIAlertAction(title: "확인", style: .default) { _ in
             self.viewModel?.didTappedAlertConfirm()
@@ -180,8 +189,24 @@ final class DetailViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
+    private func presentDeleteAlert() {
+        let alert = UIAlertController(title: "알림", message: "정말 챌린지를 포기하시겠습니까?", preferredStyle: .alert)
+        let giveup = UIAlertAction(title: "포기하기", style: .destructive) { _ in
+            self.viewModel?.didTappedAlertGiveUp()
+        }
+        let confirm = UIAlertAction(title: "취소", style: .default)
+
+        alert.addAction(giveup)
+        alert.addAction(confirm)
+        present(alert, animated: true, completion: nil)
+    }
+
     @objc private func didTappedEditBarButton(_ sender: UIBarButtonItem) {
         viewModel?.didTappedEditBarButton()
+    }
+
+    @objc private func didTappedDeleteBarButton(_ sender: UIBarButtonItem) {
+        presentDeleteAlert()
     }
 }
 
