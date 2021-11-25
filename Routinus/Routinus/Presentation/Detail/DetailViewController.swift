@@ -151,7 +151,7 @@ final class DetailViewController: UIViewController {
             .receive(on: RunLoop.main)
             .sink(receiveValue: { [weak self] ownerState in
                 guard let self = self else { return }
-                let rightBarButtonItem = ownerState ? self.editBarButtonItem : self.deleteBarButtonItem
+                let rightBarButtonItem = ownerState ? self.editBarButtonItem : nil
                 self.navigationItem.rightBarButtonItem = rightBarButtonItem
             })
             .store(in: &cancellables)
@@ -161,6 +161,10 @@ final class DetailViewController: UIViewController {
             .sink(receiveValue: { [weak self] participationState in
                 guard let self = self else { return }
                 self.participantButton.update(to: participationState)
+                if self.navigationItem.rightBarButtonItems?.count == nil {
+                    let rightBarButtonItem = participationState == .notAuthenticating ? self.deleteBarButtonItem : nil
+                    self.navigationItem.rightBarButtonItem = rightBarButtonItem
+                }
             })
             .store(in: &cancellables)
 
@@ -179,6 +183,7 @@ final class DetailViewController: UIViewController {
                 guard let self = self else { return }
                 self.viewModel?.updateParticipantCount(-1)
                 self.viewModel?.participationAuthState.value = .notParticipating
+                self.participantButton.update(to: .notParticipating)
             })
             .store(in: &cancellables)
     }
